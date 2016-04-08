@@ -30,9 +30,21 @@ describe('dot', function(){
     expect(dot(city, "population")).toEqual(8491079);
   });
 
-  it('recursively finds properties in its prototype chain', function(){
-    spyOn(window, 'dot').and.callThrough();
+  it('calls the Object.getPrototypeOf and Object.prototype.hasOwnProperty methods', function(){
+    spyOn(Object,'getPrototypeOf').and.callThrough();
+    spyOn(Object.prototype,'hasOwnProperty').and.callThrough();
 
+    dot({}, 'toString');
+    expect(Object.getPrototypeOf).toHaveBeenCalled();
+    expect(Object.prototype.hasOwnProperty).toHaveBeenCalled();
+  });
+
+  it('recursively finds properties in its prototype chain', function(){
+
+    
+    spyOn(window,'dot').and.callThrough();  
+    
+    
     var FrameWork = function(name, createdBy, version){
       this.isFramework = true,
       this.createdBy = createdBy,
@@ -44,8 +56,14 @@ describe('dot', function(){
     var angular = new FrameWork('Angular', "Google", 1.5);
 
     expect(dot(angular, "type")).toEqual(FrameWork.prototype.type);
+    expect(window.dot.calls.count()).toEqual(2);  
+
+    window.dot.calls.reset();
+
+
     expect(dot(angular, 'toString')).toEqual(Object.prototype.toString);
-    expect(window.dot).toHaveBeenCalled();
+    expect(window.dot.calls.count()).toEqual(3);
+    
   });
 });
 

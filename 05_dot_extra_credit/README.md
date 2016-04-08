@@ -12,6 +12,9 @@ OUTPUT: function(){return 'hello world'}
 
 INPUT: dot({}, 'toString');
 OUTPUT: Object.prototype.toString  (returns the toString function)
+
+INPUT: dot({hello: function(){return 'hello world'},'toString');
+OUTPUT: Object.prototype.toString  (returns the toString function)
 ```
 
 
