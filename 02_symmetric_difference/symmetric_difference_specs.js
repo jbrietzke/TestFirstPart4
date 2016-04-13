@@ -11,6 +11,12 @@ describe('difference', function(){
   it('returns the unique index for non-integer values', function(){
     expect(difference(['hello', 'world', 'bye'], ['full', 'stack', 'world','bye'])).toEqual(['hello']);
   });
+  
+  it('calls Array.prototype.filter', function(){
+   spyOn(Array.prototype, 'filter').and.callThrough();
+    expect(difference([1,2,3],[3,2,5])).toEqual([1]); 
+    expect(Array.prototype.filter).toHaveBeenCalled();
+  });
 
 });
 
