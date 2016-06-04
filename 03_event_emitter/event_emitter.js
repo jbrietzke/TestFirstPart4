@@ -16,5 +16,7 @@ MyEventEmitter.prototype.addListener = function(action, func){
 
 
 MyEventEmitter.prototype.emit = function(action, name){
-	return this.events[action][0](name);
-};
+	return this.events[action].map(function(eventHandler){
+		return eventHandler.apply(this, [name]);
+	});
+}
